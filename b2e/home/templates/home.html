@@ -16,13 +16,11 @@
         <div class="row" style="padding-top: 1.5em;">
             <div class="col-sm-2">&nbsp;</div>
             <div class="col-sm-8">
-                <form name="create_from" method="POST" action="{% url 'url_create' %}">
-                    {% csrf_token %}
-                    <input class="form-control" name="url"
-                        placeholder="請輸入您欲縮短的網址， eg. https://www.google.com.tw">
-                    <div style="padding-top: 1em;"></div>
-                    <button class="btn btn-info" type="button" onclick="create_short_one();">新增</button>
-                </form>
+                {% csrf_token %}
+                <input class="form-control" name="url"
+                    placeholder="請輸入您欲縮短的網址， eg. https://www.google.com.tw">
+                <div style="padding-top: 1em;"></div>
+                <button class="btn btn-info" type="button" onclick="create_short_one();">新增</button>
             </div>
             <div class="col-sm-2">&nbsp;</div>
         </div>
