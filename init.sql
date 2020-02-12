@@ -20,7 +20,7 @@ USE `b2e`;
 #
 # Host: 127.0.0.1 (MySQL 5.7.29)
 # Database: b2e
-# Generation Time: 2020-02-12 08:12:04 +0000
+# Generation Time: 2020-02-12 23:42:03 +0800
 # ************************************************************
 
 
@@ -323,7 +323,8 @@ VALUES
 	(15,'auth','0010_alter_group_name_max_length','2020-02-11 19:31:25.847820'),
 	(16,'auth','0011_update_proxy_permissions','2020-02-11 19:31:25.869545'),
 	(17,'sessions','0001_initial','2020-02-11 19:31:25.966927'),
-	(18,'home','0001_initial','2020-02-12 05:30:38.313674');
+	(18,'home','0001_initial','2020-02-12 05:30:38.313674'),
+	(19,'home','0002_auto_20200212_1639','2020-02-12 16:41:24.923757');
 
 /*!40000 ALTER TABLE `django_migrations` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -343,7 +344,8 @@ CREATE TABLE `django_session` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-# Dump of table home_urldata
+
+# Dump of table home_urldata (url_hash COLLATE utf8mb4_bin 因為需要大小寫敏感的 UNIQUE)
 # ------------------------------------------------------------
 
 DROP TABLE IF EXISTS `home_urldata`;
@@ -351,12 +353,13 @@ DROP TABLE IF EXISTS `home_urldata`;
 CREATE TABLE `home_urldata` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `original_url` varchar(1023) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `url_hash` varchar(12) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `url_hash` varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `url_hash` (`url_hash`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 
 
 # Dump of table home_urllog
@@ -377,10 +380,11 @@ CREATE TABLE `home_urllog` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
+
+
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
