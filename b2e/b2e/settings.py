@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '69rp&7cet6#3m&(%if5)4$#98!4_f8unw(o71il#sr&5lu9!5c'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # 請增加允許的 FQDN
 ALLOWED_HOSTS = ['b2e.com']
