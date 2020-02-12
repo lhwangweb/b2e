@@ -141,8 +141,8 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
-        'b2e': {
-            'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+        'b2e_custom': {
+            'format' : "%(asctime)s - [%(levelname)s][%(name)s.%(module)s.%(funcName)s:%(lineno)s] %(message)s",
             'datefmt' : "%Y-%b-%d %H:%M:%S"
         },
     },
@@ -151,11 +151,37 @@ LOGGING = {
             'level': 'WARNING',
             'class': 'logging.FileHandler',
             'filename': BASE_DIR + '/b2e.log',
-            'formatter': 'b2e',
+            'formatter': 'b2e_custom',
+            'encoding':'utf-8'
         },
     },
     'loggers': {
+        '': {
+            'handlers': ['file'],
+            'level': 'WARNING',
+            'propagate': True,
+        },
         'django': {
+            'handlers': ['file'],
+            'level': 'WARNING',
+            'propagate': True,
+        },
+        'django.request': {
+            'handlers': ['file'],
+            'level': 'WARNING',
+            'propagate': True,
+        },
+        'home.views': {
+            'handlers': ['file'],
+            'level': 'WARNING',
+            'propagate': True,
+        },
+        'home.models': {
+            'handlers': ['file'],
+            'level': 'WARNING',
+            'propagate': True,
+        },
+        'home.forms': {
             'handlers': ['file'],
             'level': 'WARNING',
             'propagate': True,

@@ -64,12 +64,11 @@ def create(request):
                 # 4. 加上 2 個隨機英數字元，稍微增加反推難度
                 rand_num1 = random.randint(0, 61)
                 rand_num2 = random.randint(0, 61)
-                url_hash = population2[rand_num2] + \
-                    url_hash + population2[rand_num1]
+                url_hash = population2[rand_num2] + url_hash + population2[rand_num1]
 
                 if len(url_hash) > 12:
-                    # url_hash 欄位長度為 12，雖然理論上不可能達到
-                    raise Exception("抱歉！ 本縮址系統已達設計的資料上限，暫時無法繼續為您服務！")
+                    # url_hash 欄位長度為 12 (雖然理論上不可能達到)
+                    raise Exception("[Service Paused] Sorry! Data Volume Reached Upper Limit of System.")
                 # === 產生 縮址 hash ===
 
                 # 回存 hash
@@ -83,15 +82,12 @@ def create(request):
                 response_data["hash"] = url_hash
 
         except Exception as e:
-            logger.error('[home][create] 新增縮址資料錯誤')
+            logger.error('Error Code 011 - Error Occur When Create New Short One')
             logger.error(str(e))
             response_data["status"] = -1
-            response_data["message"] = "新增失敗，伺服器發生錯誤 " + str(e) 
-            response_data["errors"] = { "fail":str(e) }
+            response_data["message"] = "新增失敗，伺服器發生錯誤" 
+            response_data["errors"] = { "fail": str(e) }
     else:
-        # 資料驗證先不 log 怕太吵
-        # logger.warning('[home][create] 新增縮址資料錯誤')
-        # logger.warning(str(form.errors))
         response_data["status"] = -1
         response_data["message"] = "新增失敗，資料格式錯誤"
         response_data["errors"] = form.errors
@@ -107,7 +103,7 @@ def result(request, url_hash):
 
     if urldata is None:
         # 沒結果就導向首頁
-        logger.warning('[home][url_handler] Urldata 找不到 url_hash: ' + url_hash)
+        logger.warning('Error Code 010 - Urldata Not Found. url_hash: ' + url_hash)
         return redirect('/')
     
     # 輸出 HTML
@@ -128,7 +124,7 @@ def url_handler(request, url_hash):
 
     if urldata is None:
         # 沒結果就導向首頁
-        logger.warning('[home][url_handler] Urldata 找不到 url_hash: ' + url_hash)
+        logger.warning('Error Code 004 - Urldata Not Found. url_hash: ' + url_hash)
         return redirect('/')
     
     try:
@@ -137,7 +133,7 @@ def url_handler(request, url_hash):
         log = Urllog.objects.create(urldata=urldata, ip=ip, agent=user_agent)
         log.save()
     except Exception as e:
-        logger.error('[home][url_handler] 紀錄 urllog 出錯 錯誤')
+        logger.error('Error Code 005 - Logging urllog Error')
         logger.error(str(e))
 
     try:
@@ -148,11 +144,11 @@ def url_handler(request, url_hash):
         return redirect(original_url)
     except ValidationError as ve:
         # 錯誤 - 導向首頁
-        logger.error('[home][url_handler] Urldata.original_url 格式錯誤，不予導向')
+        logger.error('Error Code 006 - Urldata.original_url Format Invalid. Dont Redirect')
         logger.error(str(ve))
         return redirect('/')
     except Exception as e:
-        logger.error('[home][url_handler] 導向出錯')
+        logger.error('Error Code 007 - Redirect Error')
         logger.error(str(e))
         # 錯誤 - 導向首頁
         return redirect('/')
@@ -186,11 +182,11 @@ def get_ip(req):
         try:
             validate_ipv46_address(ip)
         except ValidationError as ve:
-            logger.error('[home][get_ip] 偵測到不合法IP。 IP: ' + ip)
+            logger.error('Error Code 008 - Invalid IP Detected. IP: ' + ip)
             logger.error(str(ve))
             ip = "[Invalid IP][IP Save Into Log]"
         except Exception as e:
-            logger.error('[home][get_ip] 偵測IP出錯。 IP: ' + ip)
+            logger.error('Error Code 008 - Error When Detect IP. IP: ' + ip)
             logger.error(str(e))
             ip = "[Valid IP Exception Occur][IP Save Into Log]"
     else:

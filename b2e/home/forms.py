@@ -25,7 +25,9 @@ class UrlForm(forms.ModelForm):
             u_validate(original_url)
             return original_url
         except ValidationError:
+            # 這裡拋出去到 Invalid ，目前不會到 logger，所以 message 中文沒問題
             raise forms.ValidationError("請輸入有效 URL")
             # return False
         except Exception:
+            # 這裡拋出去到 Invalid ，目前不會到 logger，所以 message 中文沒問題
             raise forms.ValidationError("URL 驗證失敗，請輸入有效 URL！")
