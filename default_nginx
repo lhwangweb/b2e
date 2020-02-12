@@ -1,0 +1,29 @@
+upstream uwsgi {
+    server b2e:8001;
+}
+
+# configuration of the server
+server {
+    listen    80;
+    # 請修改為您的 FQDN
+    server_name b2e.com;
+    charset     utf-8;
+
+    client_max_body_size 75M;
+
+    # 剛好這個專案不用 media
+    # Django media
+    # location /media  {
+    #     alias /docker_api/static/media;
+    # }
+
+    location /static {
+        alias /var/www/b2e/b2e/static;
+    }
+
+    location / {
+        uwsgi_pass  uwsgi;
+        include     /etc/nginx/uwsgi_params;
+    }
+
+}

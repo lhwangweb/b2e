@@ -1,0 +1,16 @@
+asgiref==3.2.3
+asn1crypto==0.24.0
+cryptography==2.1.4
+Django==3.0.3
+idna==2.6
+keyring==10.6.0
+keyrings.alt==3.0
+mysqlclient==1.4.6
+pycrypto==2.6.1
+pygobject==3.26.1
+pytz==2019.3
+pyxdg==0.25
+SecretStorage==2.3.1
+six==1.11.0
+sqlparse==0.3.0
+uWSGI==2.0.18
