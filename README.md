@@ -15,24 +15,29 @@ user$ git clone https://github.com/lhwangweb/b2e.git
 ```
 
 3. 以下用 b2e.com 作為範例測試網址，請編輯以下地方，確保您的測試網址可用：
-/Path/To/Projects/b2e/default_nginx L9
-```bash
-# 請修改為您的 FQDN
-server_name b2e.com;
-```
 
-/Path/To/Projects/b2e/b2e/b2e/settings.py L29
-```bash
-# 請增加允許的 FQDN
-ALLOWED_HOSTS = ['b2e.com']
-```
+    (1) /Path/To/Projects/b2e/default_nginx L9
 
-此外，您可能需要編輯您本機 /etc/hosts (mac, linux) 或 C:\WINDOWS\system32\drivers\etc\hosts
-```bash
-127.0.0.1 b2e.com;
-```
+    ```bash
+    # 請修改為您的 FQDN
+    server_name b2e.com;
+    ```
+
+    (2) /Path/To/Projects/b2e/b2e/b2e/settings.py L29
+
+    ```bash
+    # 請增加允許的 FQDN
+    ALLOWED_HOSTS = ['b2e.com']
+    ```
+
+    (3) 此外，您可能需要編輯您本機 /etc/hosts (mac, linux) 或 C:\WINDOWS\system32\drivers\etc\hosts
+
+    ```bash
+    127.0.0.1 b2e.com
+    ```
 
 2. 執行 docker-compose
+
 ```bash
 user$ cd /Path/To/Projects/
 user$ git clone https://github.com/lhwangweb/b2e.git
@@ -48,15 +53,17 @@ Creating b2e_instance ... done
 ```
 
 3. 查看啟動中的 Container
+
 ```bash
 $ docker-compose ps
       Name                    Command               State                 Ports              
 ---------------------------------------------------------------------------------------------
-b2e_instance       uwsgi --ini /var/www/b2e/d ...   Up      0.0.0.0:8000->8000/tcp           
+b2e_instance       uwsgi --ini /var/www/b2e/d ...   Up      0.0.0.0:80->80/tcp
 mysql57_instance   docker-entrypoint.sh mysql ...   Up      0.0.0.0:3306->3306/tcp, 33060/tcp
 ```
 
 4. 執行 NGINX RESTART
+
 ```bash
 user$ docker exec -it b2e_instance service nginx restart
 ```
@@ -65,8 +72,8 @@ user$ docker exec -it b2e_instance service nginx restart
 
 5. 訪問首頁 http://b2e.com
 
-
 ## 測試步驟
+
 1. 連結前台首頁 http://b2e.com
 
 2. 輸入一個欲縮短的網址並按下『儲存』
@@ -74,7 +81,7 @@ user$ docker exec -it b2e_instance service nginx restart
 3. 成功後，導向結果，嘗試點擊該網址，將會 redirect 到原本輸入的網址
 
 4. 連結後台 http://b2e.com/admin
-    - 帳密 b2e_admin / c696b04ea  (管理者，具有一切權限，可看縮址資料以及日誌)
+    - 帳密 b2e_admin / c696b04ea  (管理者，具有一切權限，可看縮址資料以及日誌，可編輯)
     - 帳密 b2e_sales / e07c48895262  (業務，假設只能看縮址資料，達成方式為 Django 預設後台)
 
 ## 程式規劃
