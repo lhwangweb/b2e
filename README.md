@@ -86,7 +86,9 @@ user$ docker exec -it b2e_instance service nginx restart
 
 ## 程式規劃
 1. 使用 Docker 封裝 2 包執行環境
-    (1) Ubuntu 18.04 - 含Python 3.6, Django 3.0.3 + uWSGI + NGINX
+
+    (1) Ubuntu 18.04 ( Python 3.6 + Django 3.0.3 + uWSGI + Nginx)
+
     (2) MySQL 5.7 - pull 現成 image
 
 2. 因為都封裝為一包環境了，也沒有多組環境的需求，所以就不裝 Virtualenv 環境了
