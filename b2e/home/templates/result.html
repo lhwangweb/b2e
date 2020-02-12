@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B2E 實作 - Simple URL Shortener - 縮址結果</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <div style="padding-top: 1em;"></div>
+        <h1 class="text-center">B2E 實作 - Simple URL Shortener - 縮址結果</h1>
+        <div class="row" style="padding-top: 1.5em;">
+            <div class="col-sm-2">&nbsp;</div>
+            <div class="col-sm-8">
+                <h2 class="text-center">{{ hash }}</h2>
+                <p class="text-center">感謝使用本縮址服務，您的縮址結果如下</p>
+                <table class="table table-strip">
+                    <th>原網址</th>
+                    <th>縮址</th>
+                    <tr>
+                        <td>{{ original_url }}</td>
+                        <td>{{ short_url }} <a href="{{ short_url }}" target="_blank">立刻試試</a></td>
+                    </tr>
+                </table>
+                <div class="text-center" style="padding-top: 1em;"><a class="btn btn-info" href="/">繼續新增其他縮址</a></div>
+            </div>
+            <div class="col-sm-2">&nbsp;</div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

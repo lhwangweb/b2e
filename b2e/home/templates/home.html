@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B2E 實作 - Simple URL Shortener</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <div style="padding-top: 1em;"></div>
+        <h1 class="text-center">B2E 實作 - Simple URL Shortener</h1>
+        <div class="row" style="padding-top: 1.5em;">
+            <div class="col-sm-2">&nbsp;</div>
+            <div class="col-sm-8">
+                <form name="create_from" method="POST" action="{% url 'url_create' %}">
+                    {% csrf_token %}
+                    <input class="form-control" name="url"
+                        placeholder="請輸入您欲縮短的網址， eg. https://www.google.com.tw">
+                    <div style="padding-top: 1em;"></div>
+                    <button class="btn btn-info" type="button" onclick="create_short_one();">新增</button>
+                </form>
+            </div>
+            <div class="col-sm-2">&nbsp;</div>
+        </div>
+        <div class="row" style="padding-top: 1em;">
+            <div class="col-sm-2" id="error_title" style="display:none;">錯誤訊息:</div>
+            <div class="col-sm-8 text-danger" id="error_message">&nbsp;</div>
+            <div class="col-sm-2">&nbsp;</div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <script>
+        // 防止連送用的變數
+        var sending = false;
+
+        /* 收集資料 */
+        function collect_data() {
+            var form_data = new FormData();
+            form_data.append("csrfmiddlewaretoken", $("input[name='csrfmiddlewaretoken']").val());
+
+            var url = $("input[name='url']").val();
+            url = url || "";
+            form_data.append("original_url", url);
+
+            return form_data;
+        }
+
+        /* 送出 create request */
+        function create_short_one() {
+            $("#error_message").text("");
+            $("#error_title").hide();
+            if (!sending) {
+                sending = true;
+                var form_data = collect_data();
+                $.ajax({
+                    type: 'POST',
+                    url: '/url/create',
+                    dataType: 'json',
+                    data: form_data,
+                    contentType: false,
+                    processData: false,
+                    success: function (res) {
+                        var status = res.status || 0;
+                        
+                        if (status == 1) {
+                            var hash = res.hash || "";
+                            if (hash.length > 0) {
+                                window.location.href = "/url/result/" + hash;
+                            } else {
+                                $("#error_message").html("新增失敗 - 未產生縮址");
+                                $("#error_title").show();
+                            }
+                        } else {
+                            // alert(res.message || "新增失敗");
+                            var errors_data = res.errors||{};
+                            var error_message = "";
+                            for (var key in errors_data) {
+                                error_message += String(errors_data[key]||"") + "<br />";
+                            }
+                            $("#error_message").html(error_message);
+                            $("#error_title").show();
+                        }
+                        sending = false;
+                    },
+                    error: function (res) {
+                        alert(res.message || "新增失敗，出現錯誤");
+                        sending = false;
+                    },
+                    complete: function (res) { },
+                    
+                });
+            }
+        }
+    </script>
+
+</body>
+
+</html>
