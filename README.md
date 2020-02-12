@@ -138,6 +138,30 @@
    
    - 可參考 /Path/To/Projects/b2e/home/views.py 約 L27， def create()
 
+## sqlmap 掃描
+
+   1. 導向功能
+   ```bash
+   python /Users/hank/sqlmap-dev/sqlmap.py -u "http://b2e.com/go/a1*" --method=GET --tamper=space2comment  --random-agent --level=5 --risk=3 --tables --time-sec=30 --dbms=mysql --batch
+
+   [WARNING] URI parameter '#1*' does not seem to be injectable
+   ```
+
+   2. 新增縮址 (先關閉CSRF再測)
+   ```bash
+   python /Users/hank/sqlmap-dev/sqlmap.py -u "http://b2e.com/url/create" --method=POST --data="original_url=http://haha.cc" --tamper=space2comment  --random-agent --level=5 --risk=3 --tables --time-sec=30 --dbms=mysql --batch
+
+   [WARNING] POST parameter 'original_url' does not seem to be injectable
+   ```
+
+   3. 縮址結果頁
+   ```bash
+   python /Users/hank/sqlmap-dev/sqlmap.py -u "http://b2e.com/url/result/a1*" --method=GET --tamper=space2comment  --random-agent --level=5 --risk=3 --tables --time-sec=30 --dbms=mysql --batch
+   
+   [WARNING] URI parameter '#1*' does not seem to be injectable
+   ```
 ## LICENSE
 
 本程式以 Django 建構，LICENSE 遵循 Django  的 3-clause BSD
+
+
