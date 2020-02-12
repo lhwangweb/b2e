@@ -52,11 +52,18 @@ Creating b2e_instance ... done
 $ docker-compose ps
       Name                    Command               State                 Ports              
 ---------------------------------------------------------------------------------------------
-b2e_instance       python3 manage.py runserve ...   Up      0.0.0.0:8000->8000/tcp           
+b2e_instance       uwsgi --ini /var/www/b2e/d ...   Up      0.0.0.0:8000->8000/tcp           
 mysql57_instance   docker-entrypoint.sh mysql ...   Up      0.0.0.0:3306->3306/tcp, 33060/tcp
 ```
 
-4. 
+4. 執行 NGINX RESTART
+```bash
+user$ docker exec -it b2e_instance service nginx restart
+```
+
+附註： 目前還沒有研究成功如何完美的 docker start 就把服務全部啟動完成 ( entrypoint 與 start.sh 之類的方式還在試驗中)，因此先提供此較笨步驟，手動 restart service
+
+5. 訪問首頁 http://b2e.com
 
 
 ## 測試步驟

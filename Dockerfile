@@ -3,7 +3,7 @@ FROM ubuntu:18.04
 RUN sed -i 's/archive.ubuntu.com/free.nchc.org.tw/g' /etc/apt/sources.list
 
 # 安裝必要套件
-RUN apt-get update && apt install -y build-essential python3 python3-pip libmysqlclient-dev nginx && systemctl enable nginx 
+RUN apt-get update && apt install -y build-essential python3 python3-pip libmysqlclient-dev nginx 
 # mysql-client mysql-server
 
 COPY default_nginx /etc/nginx/sites-available/default

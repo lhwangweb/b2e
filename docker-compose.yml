@@ -17,9 +17,9 @@ services:
         build: .
         depends_on:
             - mysql
-        restart: always
+        # restart: always
         # command: python3 manage.py runserver 0.0.0.0:8000
-        command: service nginx restart && uwsgi --ini /var/www/b2e/default_uwsgi.ini
+        command: uwsgi --ini /var/www/b2e/default_uwsgi.ini
         ports:
             - "8000:8000"
             - "8001:8001"
