@@ -1,7 +1,7 @@
 asgiref==3.2.3
 asn1crypto==0.24.0
 cryptography==3.2
-Django==3.0.3
+Django==3.1.12
 idna==2.6
 keyring==10.6.0
 keyrings.alt==3.0
